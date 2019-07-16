@@ -6,11 +6,11 @@
 ## 安装
 * npm
 ``` shell
-npm install s_request
+npm install spider-by-request
 ```
 * yarn
 ``` shell
-yarn add s_request
+yarn add spider-by-request
 ```
 
 ## 使用
