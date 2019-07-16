@@ -1,0 +1,25 @@
+{
+  "name": "spider_request",
+  "version": "1.0.0",
+  "description": "a lib by request",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "request",
+    "s_request",
+    "_request",
+    "spider request"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/onshinpei/spider-request"
+  },
+  "author": "onshinpei",
+  "license": "ISC",
+  "dependencies": {
+    "iconv-lite": "^0.5.0",
+    "request": "^2.88.0"
+  }
+}
