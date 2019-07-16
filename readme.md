@@ -16,7 +16,7 @@ yarn add s_request
 ## 使用
 options 参数是 `request`的一个扩展，添加参数gbk
 ```javascript
-const _request = require('spider_request');
+const _request = require('spider-by-request');
 
 _request({
   url: 'http://www.baidu.com',

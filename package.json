@@ -1,5 +1,5 @@
 {
-  "name": "spider_request",
+  "name": "spider-by-request",
   "version": "1.0.0",
   "description": "a lib by request",
   "main": "index.js",
