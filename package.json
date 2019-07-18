@@ -1,6 +1,6 @@
 {
   "name": "spider-by-request",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "a lib by request",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "author": "onshinpei",
   "license": "ISC",
   "dependencies": {
+    "extend": "^3.0.2",
     "iconv-lite": "^0.5.0",
     "request": "^2.88.0"
   }

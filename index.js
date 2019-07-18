@@ -1,41 +1,62 @@
 const request = require('request');
-const {getUserAgent} = require('./src/tool');
+const {getUserAgent, getType} = require('./src/tool');
 const Iconv = require('iconv-lite');
+const extend = require('extend');
+const  { URL } = require('url');
 
 /** 请求通用方法
  * request options
+ * @param uri
  * @param options
  * @returns {Promise}
  */
-module.exports = function (options) {
+function _request (uri, options) {
+
+  if (getType(uri) === 'Undefined') {
+    throw new Error('undefined is not a valid uri or options object.')
+  }
+
+  let params = initParams(uri, options);
+
   return new Promise((resolve, reject) => {
-    if (!options.headers) {
-      options.headers = {}
-    }
-    if (options.headers['user-agent'] || options.headers['User-Agent']) {
-      if (options.headers.hasOwnProperty('user-agent')) {
-        options.headers['User-Agent'] = options.headers['user-agent'];
-        delete options.headers['user-agent'];
+    let {headers} = params;
+    if (!headers) {
+      headers = {
+        'User-Agent': getUserAgent()
       }
-      options.headers['User-Agent'] = getUserAgent(options.headers['User-Agent']);
-      options.headers = Object.assign({}, {
+    }
+
+    // headers origin
+    if (!headers.Origin || !headers.origin) {
+      let _url = new URL(params.uri || params.url);
+      headers.Origin = _url.origin
+    }
+
+    if (headers['user-agent'] || headers['User-Agent']) {
+      if (headers.hasOwnProperty('user-agent')) {
+        headers['User-Agent'] = headers['user-agent'];
+        delete headers['user-agent'];
+      }
+      headers['User-Agent'] = getUserAgent(headers['User-Agent']);
+      params.headers = Object.assign({}, {
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'zh-CN,zh;q=0.9',
-      }, options.headers);
+      }, headers);
 
-      options = Object.assign({}, {
+
+      params = Object.assign({}, {
         gzip: true,
         forever: true,
-      }, options);
+      }, params);
       // gbk编码转码
-      if (options.gbk) {
-        options.encoding = null
+      if (params.gbk) {
+        params.encoding = null
       }
-      request(options, function(err, response, body) {
+      request(params, function(err, response, body) {
         if (err) {
           reject(err)
         } else {
-          if (options.gbk) {
+          if (params.gbk) {
             response.body = Iconv.decode(body, 'gb2312').toString();
           }
           resolve(response)
@@ -45,4 +66,47 @@ module.exports = function (options) {
       reject('user-agent can not null')
     }
   })
+}
+
+/**
+ * init params
+ * @param uri
+ * @param options
+ */
+function initParams (uri, options) {
+  let params = {};
+  if (options !== null && typeof options === 'object') {
+    extend(params, options, {uri: uri})
+  } else if (typeof uri === 'string') {
+    extend(params, {uri: uri})
+  } else {
+    extend(params, uri)
+  }
+  return params
+}
+
+function verbFunc (verb) {
+  let method = verb.toUpperCase()
+  return function (uri, options) {
+    let params = initParams(uri, options)
+    params.method = method
+    return _request(params)
+  }
+}
+
+_request.get = verbFunc('get');
+_request.head = verbFunc('head');
+_request.options = verbFunc('options');
+_request.post = verbFunc('post');
+_request.put = verbFunc('put');
+_request.patch = verbFunc('patch');
+_request.del = verbFunc('delete');
+_request['delete'] = verbFunc('delete');
+
+
+_request.prototype.get = function () {
+  let arg = arguments;
 };
+
+
+module.exports = _request;
