@@ -20,11 +20,14 @@ options 参数是 `request`的一个扩展，添加参数gbk
 ```javascript
 const _request = require('spider-by-request');
 
-_request({
-  uri: 'https://www.baidu.com',
-  method: 'GET',
-  gbk: false,
-})
-// or
-_request.get('https://www.baidu.com')
+(async function () {
+  const response = await _request({
+    uri: 'https://www.baidu.com',
+    method: 'GET',
+    gbk: false,
+  })
+  // or
+  const response2 = await _request.get('https://www.baidu.com')
+})()
+
 ```

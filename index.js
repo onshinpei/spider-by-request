@@ -104,9 +104,4 @@ _request.del = verbFunc('delete');
 _request['delete'] = verbFunc('delete');
 
 
-_request.prototype.get = function () {
-  let arg = arguments;
-};
-
-
 module.exports = _request;
