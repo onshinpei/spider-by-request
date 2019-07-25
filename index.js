@@ -34,7 +34,7 @@ function _request (uri, options) {
 
     // set headers Accept
     if (!headers.Accept || !headers.accept) {
-      let opAccept = options.accept;
+      let opAccept = params.accept;
       if (opAccept === 'text') {
         headers.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
       } else if (opAccept === 'json') {
@@ -44,7 +44,7 @@ function _request (uri, options) {
       }
     }
 
-    if (options.ajax && (!options['X-Requested-With'] || !options['x-requested-with'])) {
+    if (params.ajax && (!params['X-Requested-With'] || !params['x-requested-with'])) {
       headers['X-Requested-With'] = 'XMLHttpRequest'
     }
 
