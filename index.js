@@ -32,6 +32,18 @@ function _request (uri, options) {
       headers.Origin = _url.origin
     }
 
+    // set headers Accept
+    if (!headers.Accept || !headers.accept) {
+      let opAccept = options.accept;
+      if (opAccept === 'text') {
+        headers.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+      } else if (opAccept === 'json') {
+        headers.Accept = 'application/json, text/javascript, */*; q=0.01'
+      } else {
+        headers.Accept = 'text/html, */*; q=0.01'
+      }
+    }
+
     if (headers['user-agent'] || headers['User-Agent']) {
       if (headers.hasOwnProperty('user-agent')) {
         headers['User-Agent'] = headers['user-agent'];
