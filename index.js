@@ -44,6 +44,10 @@ function _request (uri, options) {
       }
     }
 
+    if (options.ajax && (!options['X-Requested-With'] || !options['x-requested-with'])) {
+      headers['X-Requested-With'] = 'XMLHttpRequest'
+    }
+
     if (headers['user-agent'] || headers['User-Agent']) {
       if (headers.hasOwnProperty('user-agent')) {
         headers['User-Agent'] = headers['user-agent'];
